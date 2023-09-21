@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agan <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/20 11:30:32 by agan              #+#    #+#             */
-/*   Updated: 2023/09/20 11:31:04 by agan             ###   ########.fr       */
+/*   Created: 2023/09/21 13:47:36 by agan              #+#    #+#             */
+/*   Updated: 2023/09/21 13:47:48 by agan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 // Function to join and realloc current line with buffer
 static char	*ft_join(char *res, char *buf)
@@ -96,38 +96,42 @@ static char	*ft_next(char *buf)
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer;
+	static char	*buffer[1024];
 	char		*nl;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, buffer, 0) < 0)
 		return (NULL);
-	buffer = ft_read(fd, buffer);
-	if (!buffer)
+	buffer[fd] = ft_read(fd, buffer[fd]);
+	if (!buffer[fd])
 		return (NULL);
-	nl = ft_clean(buffer);
-	buffer = ft_next(buffer);
+	nl = ft_clean(buffer[fd]);
+	buffer[fd] = ft_next(buffer[fd]);
 	return (nl);
 }
 
 // int	main(void)
 // {
 // 	int fd;
+// 	int fd2;
 // 	char *s;
 
 // 	fd = open("file.txt", O_RDONLY);
+// 	fd2 = open("file2.txt", O_RDONLY);
 // 	s = get_next_line(fd);
+// 	printf("%s", s);
+// 	free(s);
+// 	s = get_next_line(fd2);
 // 	printf("%s", s);
 // 	free(s);
 // 	s = get_next_line(fd);
 // 	printf("%s", s);
 // 	free(s);
-// 	s = get_next_line(fd);
+// 	s = get_next_line(fd2);
 // 	printf("%s", s);
 // 	free(s);
 // 	s = get_next_line(fd);
 // 	printf("%s", s);
 // 	free(s);
-// 	s = get_next_line(fd);
-// 	printf("%s", s);
-// 	free(s);
+// 	close(fd);
+// 	close(fd2);
 // }
