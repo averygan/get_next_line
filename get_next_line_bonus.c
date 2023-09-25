@@ -99,7 +99,7 @@ char	*get_next_line(int fd)
 	static char	*buffer[1024];
 	char		*nl;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, buffer, 0) < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	buffer[fd] = ft_read(fd, buffer[fd]);
 	if (!buffer[fd])
